@@ -11,6 +11,9 @@ class Validator(ABC):
     def validate_metric(self, value):
         pass
 
+    def is_match(self, condition: str):
+        pass
+
     def to_dict(self):
         return {"condition": self.__class__.__name__, "value": self.check_condition()}
 
@@ -32,19 +35,31 @@ class ZeroValidator(Validator):
         return value == 0
 
 
-class RAGCondition(Validator):
-    def __init__(self, amber, red):
-        self.amber = amber
-        self.red = red
+class RAGValidator(Validator):
+    def __init__(self, condition: str):
+        vals = condition.split(",")
+        self.red   = float(vals[0])
+        self.amber = float(vals[1])
+        self.green  = float(vals[2])
 
     def check_condition(self, value):
         if value > self.red:
-            return "Red"
+            return "RED"
         elif value > self.amber:
-            return "Amber"
+            return "AMBER"
+        elif value > self.green:
+            return "GREEN"
         else:
-            return "Green"
+            return "UNKNOWN"
+
+    def is_match(self, condition: str) -> bool:
+        return True
+
 
     def to_dict(self):
         return {"condition": self.__class__.__name__, "amber": self.amber, "red": self.red}
 
+# TODO: Only RAG Validator is support is supported
+def get_validator(condition: str) -> Validator:
+    return RAGValidator(condition)
+    

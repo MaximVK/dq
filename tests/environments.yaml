@@ -16,6 +16,5 @@ DataLogger:
     environment: TestDB
     schema: dq_reports
     create_table: True
-  LocalFile:
-    folder: tmp
+
 
