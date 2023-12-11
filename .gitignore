@@ -1,0 +1,73 @@
+    # Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+dist/
+build/
+eggs/
+*.egg-info/
+*.egg
+
+# PyInstaller
+__pycache__/
+*.pyc
+*.pyo
+
+# Unit test / coverage reports
+htmlcov/
+.coverage
+.tox/
+.nox/
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Environment
+.env
+.venv/
+venv/
+ENV/
+
+# Django
+*.log
+local_settings.py
+
+# Flask
+instance/
+
+# PyCharm
+.idea
+
+# Visual Studio Code
+.vscode/
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Python Installer
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Pytest
+__pycache__/

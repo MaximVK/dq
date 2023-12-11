@@ -1,0 +1,13 @@
+Environments:
+  TestDB:
+    name: TestDB
+    type: sqlite
+    path: plain_sql/TestDB.sqlite
+  FinanceDB:
+    name: FinanceDB
+    type: postgres
+    host: localhost
+    port: 5432
+    user: postgres
+    password: postgres
+    database: finance
