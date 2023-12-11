@@ -28,6 +28,7 @@ class Configuration:
         return self.environments.get(name, None)
 
 
+
 def load_secrets(file_path: str) -> dict:
     try:
         with open(file_path, 'r') as file:

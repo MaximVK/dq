@@ -11,3 +11,11 @@ Environments:
     user: postgres
     password: postgres
     database: finance
+DataLogger:
+  TestDB:
+    environment: TestDB
+    schema: dq_reports
+    create_table: True
+  LocalFile:
+    folder: tmp
+

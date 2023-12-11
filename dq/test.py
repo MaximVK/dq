@@ -23,15 +23,16 @@ class Metric:
 
 @dataclass
 class DQTest:
-    dataset_grou: str     # Dataset group to run the test on
+    dataset_group: str    # Dataset group to run the test on
     dataset: str          # Dataset to run the test on
     test_name: str        # Name of the data quality test
     environment: str      # Environment where the test is run
     labels: List[str]     # Labels associated with the test
     metrics: List[Metric] # Metrics used in the test
-    severity: Severity         # Severity level of the test
+    severity: Severity    # Severity level of the test
     test_query: str       # Query to execute the test
     details_query: str    # Query to get detailed results of the test
+
 
 @dataclass
 class MetricResult:
