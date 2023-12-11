@@ -1,7 +1,6 @@
 import sqlite3
 from pathlib import Path
 import pytest
-import logging
 from logger_config import logger
 
 import pandas as pd
