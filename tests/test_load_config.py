@@ -1,6 +1,7 @@
 import pytest
 import yaml
 from dq.config import Environment, Configuration, load_config, load_secrets
+from logger_config import logger
 
 def test_load_config(tmp_path):
     # Create a temporary YAML file for testing

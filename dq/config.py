@@ -30,7 +30,7 @@ class TestResultLogger:
 @dataclass
 class Configuration:
     environments: Dict[str, Environment]
-    loggers: Dict[str, Logger]
+    # loggers: Dict[str, Logger]
 
     def get_environment_by_name(self, name: str) -> Optional[Environment]:
         return self.environments.get(name, None)
@@ -53,12 +53,12 @@ def load_config(config_path: str, secrets_path: Optional[str] = None) -> Configu
         with open(config_path, 'r') as file:
             config_data = yaml.safe_load(file)
             environments = {name: Environment(name, **data) for name, data in config_data['Environments'].items()}
-            loggers = {name: TestResultLogger(name, **data) for name, data in config_data['Loggers'].items()}
+            # loggers = {name: TestResultLogger(name, **data) for name, data in config_data['Loggers'].items()}
             if secrets_path:
                 secrets = load_secrets(secrets_path)
                 for name, env in environments.items():
                     env.load_password(secrets)
-            return Configuration(environments=environments, loggers=loggers)
+            return Configuration(environments=environments) # , loggers=loggers)
     except FileNotFoundError:
         raise FileNotFoundError(f"YAML file not found: {config_path}")
     except yaml.YAMLError as e:

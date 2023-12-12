@@ -113,13 +113,13 @@ def config_file(module_tmp_path: Path, sqlite_db_file: str):
 
 def test_dq_tests_run(config_file: str, secrets_file: str, sqlite_db_file: str):
     config = load_config(config_file, secrets_file)
-    parsed_queries = process_test_file("./tests/db/test_queries.sql")
+    dq_tests = process_test_file("./tests/db/test_queries.sql")
     conn = get_connection(config.environments['TestDB'])
 
      # Print the list of parsed queries
-    for query_object in parsed_queries:
-        logger.info("Comments:" + str(query_object['comments']))
-        logger.info("SQL Query:" + str(query_object['sql_query']))
-        df = conn.select(query_object['sql_query'])
+    for dq_test in dq_tests:
+        logger.info("Comments:" + str(dq_test.metrics))
+        logger.info("SQL Query:" + dq_test.test_query)
+        df = conn.select(dq_test.test_query)
         logger.info("Query Result:" + df.to_string())
 

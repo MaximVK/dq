@@ -1,9 +1,9 @@
-from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
-
+from pydantic import BaseModel
+from pydantic import ValidationError
+import yaml 
 
 class Severity(Enum):
     LOW = 'Low'
@@ -11,52 +11,54 @@ class Severity(Enum):
     HIGH = 'High'
     CRITICAL = 'Critical'
 
-    def __str__(self):
-        return self.valuev
 
-@dataclass
-class Metric:
-    metric_variable: str  # Identifier for the metric
-    description: str      # Description of the metric
-    validate_condition: str  # Condition to validate the metric
-    labels: List[str]     # Labels associated with the metric
-
-@dataclass
-class DQTest:
-    dataset_group: str    # Dataset group to run the test on
-    dataset: str          # Dataset to run the test on
-    test_name: str        # Name of the data quality test
-    environment: str      # Environment where the test is run
-    labels: List[str]     # Labels associated with the test
-    metrics: List[Metric] # Metrics used in the test
-    severity: Severity    # Severity level of the test
-    test_query: str       # Query to execute the test
-    details_query: str    # Query to get detailed results of the test
+class Metric(BaseModel):
+    metric_variable: str
+    description: Optional[str] = None
+    rag: str
 
 
-@dataclass
-class MetricResult:
-    metric: Metric       # The metric being measured
-    metric_value: float  # The value of the metric
-    rag_status: str      # RAG (Red, Amber, Green) status of the metric
-
-
-@dataclass
-class DQTestResult:
-    environment:str            # This is the environment where the test is run
-    host:str                   # Represents the hostname or IP address of the system
-    user:str                   # Represents the username associated with the host
-    status:str                 # Represents the status of the test execution
-    exception:str              # Represents any exception or error message encountered during the test
-    test:DQTest                # Represents an instance of the DQTest class
-    metric_results:List[MetricResult]  # Represents a list of MetricResult objects which contain the results of individual metrics
-    start_timestamp:datetime   # Represents the timestamp when the test execution started
-    end_timestamp:datetime     # Represents the timestamp when the test execution ended
-    duration:float             # Represents the duration or time taken to execute the test in seconds
+class DQTest(BaseModel):
+    dataset_group: Optional[str] = None
+    dataset: Optional[str] = None
+    test_name: Optional[str] = None
+    environment: str 
+    labels: Optional[List[str]] = None
+    metrics: List[Metric]
+    severity: Severity = Severity.LOW
+    test_query: Optional[str] = None 
+    details_query: Optional[str] = None
 
 
 
 
+class MetricResult(BaseModel):
+    metric: Metric
+    metric_value: float
+    rag_status: str
+
+
+class DQTestResult(BaseModel):
+    environment: str
+    host: str
+    user: str
+    status: str
+    exception: str
+    test: DQTest
+    metric_results: List[MetricResult]
+    start_timestamp: datetime
+    end_timestamp: datetime
+    duration: float
 
 
 
+def parse_dq_test_from_yaml(data: str) -> DQTest:
+    try:
+        yaml_data = yaml.safe_load(data)
+        dq_test = DQTest(**yaml_data)
+        return dq_test
+    except yaml.YAMLError as e:
+        raise ValueError("Invalid YAML content: " + str(e))
+    except ValidationError as e:
+        error_messages = "; ".join([f"{error['loc'][0]}: {error['msg']}" for error in e.errors()])
+        raise ValueError("Data validation error for DQTest: " + error_messages)
