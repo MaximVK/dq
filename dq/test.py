@@ -30,28 +30,6 @@ class DQTest(BaseModel):
     details_query: Optional[str] = None
 
 
-
-
-class MetricResult(BaseModel):
-    metric: Metric
-    metric_value: float
-    rag_status: str
-
-
-class DQTestResult(BaseModel):
-    environment: str
-    host: str
-    user: str
-    status: str
-    exception: str
-    test: DQTest
-    metric_results: List[MetricResult]
-    start_timestamp: datetime
-    end_timestamp: datetime
-    duration: float
-
-
-
 def parse_dq_test_from_yaml(data: str) -> DQTest:
     try:
         yaml_data = yaml.safe_load(data)

@@ -1,8 +1,4 @@
-import typing
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
-import json
-from datetime import datetime
 from typing import List
   
 
@@ -42,7 +38,8 @@ class RAGValidator(Validator):
         self.amber = float(vals[1])
         self.green  = float(vals[2])
 
-    def check_condition(self, value):
+
+    def validate_metric(self, value):
         if value > self.red:
             return "RED"
         elif value > self.amber:
