@@ -28,15 +28,10 @@ def test_process_successful(mocker, mock_config, sample_dqtest):
     mock_conn = mocker.MagicMock()
     mock_conn.select.return_value = {"var1": [50]}
     mocker.patch.object(dq.test_results, "get_connection", return_value=mock_conn)
-    print(get_connection)  # Debug: print after patching
 
-    print(get_validator)  # Debug: print after patching
     mock_validator = mocker.MagicMock()
     mock_validator.validate_metric.return_value = "GREEN"
-    mocker.patch.object(dq.validators, "get_validator", return_value=mock_validator)
-    print(get_validator)  # Debug: print after patching
-    print(get_validator("1,2,3"))  # Debug: print after patching
-
+    mocker.patch.object(dq.test_results, "get_validator", return_value=mock_validator)
 
     processor = TestProcessor(config=mock_config)
 
@@ -50,7 +45,7 @@ def test_process_successful(mocker, mock_config, sample_dqtest):
 
 def test_process_exception(mocker, mock_config, sample_dqtest):
     # Mocking exception in get_connection
-    mocker.patch("dq.connection.get_connection", side_effect=Exception("DB Connection Failed"))
+    mocker.patch.object(dq.test_results, "get_connection", side_effect=Exception("DB Connection Failed"))
 
     processor = TestProcessor(config=mock_config)
 

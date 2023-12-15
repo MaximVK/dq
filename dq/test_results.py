@@ -1,4 +1,3 @@
-
 import time 
 import socket
 import getpass
@@ -41,8 +40,8 @@ class TestProcessor:
             try:
                 env = self.config.get_environment_by_name(test.environment)
 
-                with get_connection(env) as conn:
-                    result = conn.select(test.test_query)
+                conn = get_connection(env)
+                result = conn.select(test.test_query)
 
                 metric_results = []
                 test_status = 'GREEN'
@@ -70,13 +69,14 @@ class TestProcessor:
                     environment=test.environment,
                     host=socket.gethostname(),
                     user=getpass.getuser(),
+                    execution_status="COMPLETED",
                     test_status=test_status,
                     exception="",
                     test=test,
                     metric_results=metric_results,
                     start_timestamp=start_dt,
                     end_timestamp=end_dt,
-                    duration=duration_ms
+                    duration_ms=duration_ms
                 )
                 yield test_result
 
@@ -92,5 +92,5 @@ class TestProcessor:
                     metric_results=[],
                     start_timestamp=datetime.now(),
                     end_timestamp=datetime.now(),
-                    duration=0.0
+                    duration_ms=0.0
                 )

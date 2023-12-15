@@ -7,6 +7,7 @@ import pandas as pd
 from dq.config import load_config
 from dq.process import process_test_file
 from dq.connection import get_connection
+from dq.test_results import TestProcessor   
 
 
 @pytest.fixture(scope="module")
@@ -114,12 +115,23 @@ def config_file(module_tmp_path: Path, sqlite_db_file: str):
 def test_dq_tests_run(config_file: str, secrets_file: str, sqlite_db_file: str):
     config = load_config(config_file, secrets_file)
     dq_tests = process_test_file("./tests/db/test_queries.sql")
-    conn = get_connection(config.environments['TestDB'])
 
-     # Print the list of parsed queries
-    for dq_test in dq_tests:
-        logger.info("Comments:" + str(dq_test.metrics))
-        logger.info("SQL Query:" + dq_test.test_query)
-        df = conn.select(dq_test.test_query)
-        logger.info("Query Result:" + df.to_string())
+    # Process the test
+    processor = TestProcessor(config=config)
+    results = processor.process(dq_tests)
+
+    for result in results:
+        logger.info("Test Status:" + result.test_status)
+        logger.info("Execution Status:" + result.execution_status)
+        logger.info("Exception:" + result.exception)
+        logger.info("Environment:" + result.environment)
+        logger.info("Host:" + result.host)
+        logger.info("User:" + result.user)
+        logger.info("Test:" + str(result.test))
+        logger.info("Metric Results:" + str(result.metric_results))
+        logger.info("Start Timestamp:" + str(result.start_timestamp))
+        logger.info("End Timestamp:" + str(result.end_timestamp))
+        logger.info("Duration:" + str(result.duration_ms))
+        logger.info("--------------------------------------------------")   
+
 

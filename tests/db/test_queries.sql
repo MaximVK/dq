@@ -8,7 +8,6 @@
   labels: [salary, jobs]
   dataset: jobs
   dataset_group: finance
-
 */
 SELECT count(1) as num_of_records_with_negative_salaries 
 FROM jobs 
