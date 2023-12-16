@@ -4,7 +4,7 @@ import yaml
 from dq.core.config import (
     load_config, 
     load_secrets, 
-    loaf_config_with_secrets,
+    load_config_with_secrets,
     DQConfig, 
     DQMissingConfigFileError, 
     DQInvalidConfigFileError
@@ -31,10 +31,10 @@ def test_load_secrets():
     # ... assertions ...
 
 # Test for successful integration of config and secrets
-def test_loaf_config_with_secrets():
+def test_load_config_with_secrets():
     config_path = get_file_path(TEST_CONFIG_FILE)
     secrets_path = get_file_path(TEST_SECRETS_FILE)
-    config = loaf_config_with_secrets(config_path, secrets_path)
+    config = load_config_with_secrets(config_path, secrets_path)
     # ... assertions ...
 
 # Test for missing config file

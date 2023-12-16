@@ -1,6 +1,4 @@
 import pathlib as pl
-import yaml
-import pandas as pd
 import dq.connection as cn # this is the connection.py file
 import re
 from dq.test import parse_dq_test_from_yaml, DQTest, Severity, Metric

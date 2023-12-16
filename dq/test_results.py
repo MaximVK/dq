@@ -5,7 +5,7 @@ from typing import List
 from datetime import datetime, timedelta
 from pydantic import BaseModel
 from dq.test import DQTest, Metric
-from dq.core.config import Configuration
+from dq.core.config import DQConfig
 from dq.connection import get_connection
 from dq.validators import get_validator
 
@@ -29,9 +29,9 @@ class DQTestResult(BaseModel):
     duration_ms: int
 
 
-class TestProcessor:
-    def __init__(self, config: Configuration):
-        self.config: Configuration = config
+class DQTestProcessor:
+    def __init__(self, config: DQConfig):
+        self.config: DQConfig = config
 
     def process(self, tests: List[DQTest]):
         for test in tests:

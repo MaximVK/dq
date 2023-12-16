@@ -2,12 +2,11 @@ import sqlite3
 from pathlib import Path
 import pytest
 from logger_config import logger
-
-import pandas as pd
-from dq.core.config import load_config
+from dq.core.config import load_config_with_secrets, DQConfig
 from dq.process import process_test_file
 from dq.connection import get_connection
-from dq.test_results import TestProcessor   
+from dq.test_results import DQTestProcessor   
+import dq
 
 
 @pytest.fixture(scope="module")
@@ -103,7 +102,9 @@ def secrets_file(module_tmp_path: Path):
 @pytest.fixture(scope="module")
 def config_file(module_tmp_path: Path, sqlite_db_file: str):
     config_data = f"""
-    Environments:
+    global_settings:
+        default_output_env: TestDB 
+    evnironments:
       TestDB:
         conn: sqlite
         path: {sqlite_db_file}
@@ -113,11 +114,11 @@ def config_file(module_tmp_path: Path, sqlite_db_file: str):
     return str(config_file)
 
 def test_dq_tests_run(config_file: str, secrets_file: str, sqlite_db_file: str):
-    config = load_config(config_file, secrets_file)
+    config = load_config_with_secrets(config_file, secrets_file)
     dq_tests = process_test_file("./tests/db/test_queries.sql")
 
     # Process the test
-    processor = TestProcessor(config=config)
+    processor = DQTestProcessor(config=config)
     results = processor.process(dq_tests)
 
     for result in results:

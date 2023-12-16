@@ -98,7 +98,7 @@ def load_secrets(file_path: str) -> SecretsFile:
     return validated_secrets
 
 
-def loaf_config_with_secrets(config_path: str, secrets_path: Optional[str]) -> DQConfig:
+def load_config_with_secrets(config_path: str, secrets_path: Optional[str]) -> DQConfig:
     secrets = load_secrets(secrets_path) if secrets_path else SecretsFile(environments={})
     config = load_config(config_path)
     for name, env in config.environments.items():
