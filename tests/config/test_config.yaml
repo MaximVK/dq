@@ -1,0 +1,19 @@
+global_settings:
+  default_output_env: TestDB
+
+environments:
+  TestDB:
+    name: TestDB
+    env_type: sqlite
+    is_output: true
+    path: /data/TestDB.sqlite
+    database: TestDB
+    host: localhost
+    port: 5432
+
+  LocalFS:
+    name: LocalFS
+    env_type: filesystem
+    is_output: true
+    path: /mnt/local_storage
+    output_folder: /mnt/local_storage/output

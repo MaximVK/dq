@@ -18,13 +18,15 @@ database_environments:
 
 filesystem_environments:
   LocalFS:
-    env_type: "local"
-    path: "/mnt/local_storage"
+    env_type: local
+    path: /mnt/local_storage
     is_output: true
+    output_folder: dq_reports
+
 
   RemoteFS:
-    env_type: "sftp"
-    host: "remote.example.com"
-    path: "/mnt/remote_storage"
+    env_type: sftp
+    host: remote.example.com
+    path: /mnt/remote_storage
     is_output: false
 

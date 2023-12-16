@@ -5,3 +5,4 @@ Create my own exeptions
 Create a simple report UI page
 Create a report generator
 Create a principal diagram for multi execution engines (SQL, Python, etc.)
+Create environment resolvers
