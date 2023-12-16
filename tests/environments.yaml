@@ -1,20 +1,30 @@
-Environments:
+global_settings:
+  default_output: TestDB 
+
+database_environments:
   TestDB:
-    name: TestDB
-    type: sqlite
+    env_type: sqlite
     path: plain_sql/TestDB.sqlite
+    is_output: true
+    output_schema:
+      name: dq_reports
+  
   FinanceDB:
-    name: FinanceDB
-    type: postgres
+    env_type: postgres
     host: localhost
     port: 5432
-    user: postgres
-    password: postgres
     database: finance
-DataLogger:
-  TestDB:
-    environment: TestDB
-    schema: dq_reports
-    create_table: True
+    is_output: false
 
+filesystem_environments:
+  LocalFS:
+    env_type: "local"
+    path: "/mnt/local_storage"
+    is_output: true
+
+  RemoteFS:
+    env_type: "sftp"
+    host: "remote.example.com"
+    path: "/mnt/remote_storage"
+    is_output: false
 

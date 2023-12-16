@@ -5,7 +5,7 @@ from typing import List
 from datetime import datetime, timedelta
 from pydantic import BaseModel
 from dq.test import DQTest, Metric
-from dq.config import Configuration
+from dq.core.config import Configuration
 from dq.connection import get_connection
 from dq.validators import get_validator
 

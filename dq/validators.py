@@ -34,9 +34,9 @@ class ZeroValidator(Validator):
 class RAGValidator(Validator):
     def __init__(self, condition: str):
         vals = condition.split(",")
-        self.red   = float(vals[0])
+        self.green   = float(vals[0])
         self.amber = float(vals[1])
-        self.green  = float(vals[2])
+        self.red  = float(vals[2])
 
 
     def validate_metric(self, value):
@@ -47,7 +47,7 @@ class RAGValidator(Validator):
         elif value > self.green:
             return "GREEN"
         else:
-            return "UNKNOWN"
+            return "OUT OF RANGE"
 
     def is_match(self, condition: str) -> bool:
         return True

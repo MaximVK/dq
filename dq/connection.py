@@ -1,6 +1,6 @@
 import pandas as pd
 from contextlib import contextmanager
-from dq.config import Environment
+from dq.core.config import Environment
 import logging
 
 logging.basicConfig(level=logging.INFO)

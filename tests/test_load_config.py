@@ -1,6 +1,6 @@
 import pytest
 import yaml
-from dq.config import Environment, Configuration, load_config, load_secrets
+from dq.core.config import Environment, Configuration, load_config, load_secrets
 from logger_config import logger
 
 def test_load_config(tmp_path):
