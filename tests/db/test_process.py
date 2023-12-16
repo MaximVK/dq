@@ -4,7 +4,7 @@ import pytest
 from logger_config import logger
 
 import pandas as pd
-from dq.config import load_config
+from dq.core.config import load_config
 from dq.process import process_test_file
 from dq.connection import get_connection
 from dq.test_results import TestProcessor   

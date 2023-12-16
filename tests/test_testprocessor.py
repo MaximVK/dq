@@ -2,7 +2,6 @@ import pytest
 from dq.test_results import TestProcessor
 from dq.test import DQTest, Metric
 from dq.connection import get_connection
-from dq.validators import get_validator
 import dq
 
 # Sample DQTest object for testing
