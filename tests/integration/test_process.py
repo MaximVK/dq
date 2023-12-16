@@ -1,13 +1,14 @@
 import sqlite3
 from pathlib import Path
 import pytest
+import os
 from logger_config import logger
 from dq.core.config import load_config_with_secrets, DQConfig
 from dq.process import process_test_file
-from dq.connection import get_connection
 from dq.test_results import DQTestProcessor   
-import dq
 
+def get_file_path(filename):
+    return os.path.join(os.path.dirname(__file__), filename)
 
 @pytest.fixture(scope="module")
 def module_tmp_path(tmp_path_factory):
@@ -115,7 +116,8 @@ def config_file(module_tmp_path: Path, sqlite_db_file: str):
 
 def test_dq_tests_run(config_file: str, secrets_file: str, sqlite_db_file: str):
     config = load_config_with_secrets(config_file, secrets_file)
-    dq_tests = process_test_file("./tests/db/test_queries.sql")
+    file_path = get_file_path("test_queries.sql")   
+    dq_tests = process_test_file(file_path)
 
     # Process the test
     processor = DQTestProcessor(config=config)
