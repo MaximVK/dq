@@ -1,0 +1,218 @@
+<!-- svg icons from here: https://tabler.io/icons -->
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
+    <style>
+      /* css-based navigation, thanks to https://stackoverflow.com/a/29344677 */
+      .page-wrapper {display:none}
+      .page-default {display:block}
+
+      :target ~ .page-default {display:none}
+
+      #reports:target ~ .page-reports, 
+      #datasets:target ~ .page-datasets,
+      #metrics:target ~ .page-metrics,
+      #performance:target ~ .page-performance
+      {
+        display: block
+      }
+
+      /* css-based navigation, highlight menu */
+      .nav-item-default .nav-link-title { font-weight: bold } /* default is highlighted if no target (no #page) */
+      :target ~ aside .nav-item-default .nav-link-title { font-weight: normal; } /* clear default highlight if target (has #page) */
+      #reports:target ~ aside .nav-item-reports .nav-link-title,
+      #datasets:target ~ aside .nav-item-datasets .nav-link-title,
+      #metrics:target ~ aside .nav-item-metrics .nav-link-title,
+      #performance:target ~ aside .nav-item-performance .nav-link-title
+      {
+        font-weight: bold;
+      } 
+    </style>
+  </head>
+  <body class='theme-dark'>
+    <div class="page">
+      <!-- css-based navigation -->
+      <a id="reports"/>
+      <a id="datasets"/>
+      <a id="metrics"/>
+      <a id="performance"/>
+
+      <!-- Sidebar -->
+      <aside class="navbar navbar-vertical navbar-expand-sm navbar-dark">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <h1 class="navbar-brand navbar-brand-autodark">
+            <a href="#">
+              <img src="logo.png" width="110" height="32" alt="Tabler" class="navbar-brand-image">
+            </a>
+          </h1>
+          <div class="collapse navbar-collapse" id="sidebar-menu">
+            <ul class="navbar-nav pt-lg-3">
+              <!-- nav-item-*** and nav-item-default are for css-based navigation -->
+              <li class="nav-item nav-item-reports nav-item-default">
+                <a class="nav-link" href="#reports">
+                  <!-- report-analytics icon -->
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-report-analytics" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" /><path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" /><path d="M9 17v-5" /><path d="M12 17v-1" /><path d="M15 17v-3" /></svg>
+                  </span>
+                  <span class="nav-link-title">
+                    Report
+                  </span>
+                </a>
+              </li>
+              <!-- nav-item-*** and nav-item-default are for css-based navigation -->
+              <li class="nav-item nav-item-datasets">
+                <a class="nav-link" href="#datasets">
+                  <!-- database icon -->
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-database" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6m-8 0a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" /><path d="M4 6v6a8 3 0 0 0 16 0v-6" /><path d="M4 12v6a8 3 0 0 0 16 0v-6" /></svg>
+                  </span>
+                  <span class="nav-link-title">
+                    Data Sets
+                  </span>
+                </a>
+              </li>
+              <!-- nav-item-*** and nav-item-default are for css-based navigation -->
+              <li class="nav-item nav-item-metrics">
+                <a class="nav-link" href="#metrics">
+                  <!-- trending-up icon -->
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trending-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 17l6 -6l4 4l8 -8" /><path d="M14 7l7 0l0 7" /></svg>
+                  </span>
+                  <span class="nav-link-title">
+                    Metrics
+                  </span>
+                </a>
+              </li>
+              <!-- nav-item-*** and nav-item-default are for css-based navigation -->
+              <li class="nav-item nav-item-performance">
+                <a class="nav-link" href="#performance">
+                  <!-- brand-speedtest icon -->
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-speedtest" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5.636 19.364a9 9 0 1 1 12.728 0" /><path d="M16 9l-4 4" /></svg>
+                  </span>
+                  <span class="nav-link-title">
+                    Performance
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- reports -->
+      <!-- page-*** is for the css-based navigation -->
+      <div class="page-wrapper page-default page-reports">
+        <!-- Header -->
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                <h2 class="page-title">
+                  Data Quality Report
+                </h2>
+                <div class="page-posttitle">
+                  Started on 12 Jan 2024 by <a href="#">John Smith</a>
+                </div>
+              </div>
+              <div class="col-auto ms-auto d-print-none">
+                <h3>
+                  12 Jan 2024
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="row row-deck row-cards">
+
+              <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">Data Sets</h3>
+                    <div class="table-responsive">
+                      <table class="table table-sm table-borderless">
+                        <tbody>
+                          <tr><td>Processed</td><td class="text-secondary text-center">125</td></tr>
+                          <tr><td>Green</td><td class="text-success text-end">99</td></tr>
+                          <tr><td>Amber</td><td class="text-warning text-end">54</td></tr>
+                          <tr><td>Red</td><td class="text-danger text-end">54</td></tr>
+                          <tr><td>Failed</td><td class="text-danger text-end">54</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                  <div class="card-body">1 2</div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                  <div class="card-body">1 3</div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="card">
+                  <div class="card-body">1 4</div>
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-lg-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">Top 10 Failed Data Sets</h3>
+                    <table class="table table-sm table-borderless">
+                      <thead>
+                        <tr>
+                          <th>Env</th>
+                          <th>Dataset Group</th>
+                          <th>Dataset Name</th>
+                          <th class="text-end">Success</th>
+                          <th class="text-center">???</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>R1</td>
+                          <td>Trades</td>
+                          <td>TRADE_LV</td>
+                          <td class="text-end">75%</td>
+                          <td class="text-center"><span class="text-success">10</span>/<span class="text-warning">4</span>/<span class="text-danger">3</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="card">
+                  <div class="card-body">1 5</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- datasets -->
+      <!-- page-*** is for the css-based navigation -->
+      <div class="page-wrapper page-datasets"><h2 class="page-title">Datasets</h2></div>
+
+      <!-- metrics -->
+      <!-- page-*** is for the css-based navigation -->
+      <div class="page-wrapper page-metrics"><h2 class="page-title">Metrics</h2></div>
+
+      <!-- performace -->
+      <!-- page-*** is for the css-based navigation -->
+      <div class="page-wrapper page-performance"><h2 class="page-title">Performance</h2></div>
+
+    </div>
+</html>
