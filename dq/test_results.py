@@ -28,13 +28,19 @@ class DQTestResult(BaseModel):
     end_timestamp: datetime
     duration_ms: int
 
+class DQTestRun(BaseModel):
+    run_id: str
+    start_timestamp: datetime
+    end_timestamp: datetime
+    duration_ms: int
+    test_results: List[DQTestResult]
+
 
 class DQTestProcessor:
     def __init__(self, config: DQConfig):
         self.config: DQConfig = config
 
-    def process(self, tests: List[DQTest]):
-        for test in tests:
+    def _process_test(self, test: DQTest):
             start_time = time.perf_counter()
 
             try:
@@ -78,10 +84,10 @@ class DQTestProcessor:
                     end_timestamp=end_dt,
                     duration_ms=duration_ms
                 )
-                yield test_result
+                return test_result
 
             except Exception as e:
-                yield DQTestResult(
+                return DQTestResult(
                     environment=test.environment,
                     host=socket.gethostname(),
                     user=getpass.getuser(),
@@ -93,4 +99,23 @@ class DQTestProcessor:
                     start_timestamp=datetime.now(),
                     end_timestamp=datetime.now(),
                     duration_ms=0.0
+                )
+
+    def process(self, tests: List[DQTest]) -> DQTestRun:
+        start_time = time.perf_counter()
+        list = List[DQTestResult]()
+        for test in tests:
+            res = self._process_test(test)
+            list.append(res)
+    
+        end_time = time.perf_counter()
+        duration = end_time - start_time
+        start_dt = datetime.now()
+        end_dt = start_dt + timedelta(seconds=duration)
+        duration_ms = int(duration * 1000)
+        DQTestRun(run_id="100",
+                  start_timestamp = start_time,
+                  end_timestamp =  end_time,
+                  duration_ms=dur
+                  test_results = list
                 )

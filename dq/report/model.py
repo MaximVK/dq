@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from pydantic import BaseModel
 from datetime import date, timedelta
 from typing import List, Dict
+from dq.test_results import DQTestResult
 
 
 class ReportDocument(BaseModel):
@@ -126,5 +127,19 @@ class ReportDocument(BaseModel):
     performance_page: PerformancePage
 
 
-def get_report(self):
+def get_report_model(self, test_results:List[DQTestResult]):
+    pass 
+    # for tes
+    #         processed: int
+    #         green: int
+    #         amber: int
+    #         red: int
+    #         failed: int
+    #         green_percent: int
+    #         amber_percent: int
+    #         red_percent: int
+
+    # start_time = max([tr.start_timestamp for tr in test_results])
+    # end_time = max([tr.end_timestamp for tr in test_results])
+
     

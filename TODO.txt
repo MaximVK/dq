@@ -1,8 +1,4 @@
-Migrate all models to pydantic
-Add logger/output config
-Create persistency logic
-Create my own exeptions
-Create a simple report UI page
 Create a report generator
+Create persistency logic
 Create a principal diagram for multi execution engines (SQL, Python, etc.)
 Create environment resolvers
