@@ -1,0 +1,30 @@
+{% macro page(subtitle) -%}
+<div class="page-wrapper page-default page-reports">
+  <!-- Header -->
+  <div class="page-header d-print-none">
+    <div class="container-xl">
+      <div class="row g-2 align-items-center">
+        <div class="col">
+          <h2 class="page-title">
+            Data Quality Report
+          </h2>
+          <div class="page-posttitle">
+            {{ subtitle }}
+          </div>
+        </div>
+        <div class="col-auto ms-auto d-print-none">
+          <h3>
+            !!!!TODO!!!!
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="container-xl">
+      {{ caller() }}
+    </div>
+  </div>
+</div>
+{%- endmacro %}

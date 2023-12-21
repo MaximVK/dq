@@ -1,0 +1,58 @@
+{% from "page_base.html" import page %}
+{% from 'misc.html' import row_cards, card %}
+{% from 'icons.html' import icon_database_big, icon_table_big, icon_metric_big, icon_timer_big %}
+
+{% macro big_counter(icon, text) %}
+<div class="col-sm-6 col-lg-3">
+  <div class="card card-sm">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          {{icon}}
+        </div>
+        <div class="col">
+          <div class="h2 mb-0 me-2">
+            {{text}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro dataset_stats(title, stats) %}
+  {% call card(title, 12, 4) %}
+    <div class="table-responsive">
+      <table class="table table-sm table-borderless">
+        <tbody class="small">
+        <tr><td><strong>Processed</strong></td><td class="text-secondary text-end"><strong>{{stats.processed}}</strong></td></tr>
+        <tr><td>Green</td><td class="text-success text-end">{{stats.green}}</td></tr>
+        <tr><td>Amber</td><td class="text-warning text-end">{{stats.amber}}</td></tr>
+        <tr><td>Red</td><td class="text-danger text-end">{{stats.red}}</td></tr>
+        <tr><td>Failed</td><td class="text-muted text-end">{{stats.failed}}</td></tr>
+        <div class="progress progress-separated mb-3">
+          <div class="progress-bar bg-success" role="progressbar" style="width: {{stats.green_percent}}%" aria-label="Regular"></div>
+          <div class="progress-bar bg-warning" role="progressbar" style="width: {{stats.amber_percent}}%" aria-label="System"></div>
+          <div class="progress-bar bg-danger" role="progressbar" style="width: {{stats.red_percent}}%" aria-label="Shared"></div>
+        </div>
+        </tbody>
+      </table>
+    </div>
+  {% endcall %}
+{% endmacro %}
+
+{% macro page_summary(page_data) %}
+  {% call page('summary') %}
+    {% call row_cards() %}
+      {{ big_counter(icon_database_big, page_data.num_of_envionments ~ ' Environment(s)') }}
+      {{ big_counter(icon_table_big, page_data.num_of_datasets ~ ' Dataset(s)') }}
+      {{ big_counter(icon_metric_big, page_data.num_of_metrics ~ ' Metric(s)') }}
+      {{ big_counter(icon_timer_big, page_data.processing_time) }}
+
+      {{ dataset_stats('Datasets: Critical', page_data.datasets_critical) }}
+      {{ dataset_stats('Datasets: Major', page_data.datasets_major) }}
+      {{ dataset_stats('Datasets: Minor', page_data.datasets_minor) }}
+    {% endcall %}
+  {% endcall %}
+{% endmacro %}

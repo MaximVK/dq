@@ -1,12 +1,11 @@
-from abc import ABC, abstractmethod
 from pydantic import BaseModel
-from datetime import date, timedelta
+from datetime import timedelta, datetime
 from typing import List, Dict
-from dq.test_results import DQTestResult
+# from dq.test_results import DQTestResult
 
 
 class ReportDocument(BaseModel):
-    class ReportPage(BaseModel):
+    class SummaryPage(BaseModel):
         class DatasetStats(BaseModel):
             processed: int
             green: int
@@ -30,7 +29,7 @@ class ReportDocument(BaseModel):
             environment: str
             dataset_group: str
             dataset_name: str
-            metric_severity: str
+            metric_severity: str  # todo - unused?
             metric_name: str
             metric_value: int
             metric_red_threshold: int
@@ -120,15 +119,15 @@ class ReportDocument(BaseModel):
     
 # Report fields
     started_by: str
-    start_time: date
-    report_page: ReportPage
-    datasets_page: DatasetsPage
-    metrics_page: MetricsPage
-    performance_page: PerformancePage
+    start_time: datetime
+    summary_page: SummaryPage
+    # datasets_page: DatasetsPage
+    # metrics_page: MetricsPage
+    # performance_page: PerformancePage
 
 
-def get_report_model(self, test_results:List[DQTestResult]):
-    pass 
+# def get_report_model(self, test_results:List[DQTestResult]):
+#     pass
     # for tes
     #         processed: int
     #         green: int
