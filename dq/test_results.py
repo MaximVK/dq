@@ -2,12 +2,37 @@ import time
 import socket
 import getpass
 from typing import List
-from datetime import datetime, timedelta
+from datetime import datetime
 from pydantic import BaseModel
 from dq.test import DQTest, Metric
 from dq.core.config import DQConfig
 from dq.connection import get_connection
 from dq.validators import get_validator
+
+
+class PerformanceCounter:
+    def __init__(self):
+        self.start_time = None
+        self.end_time = None
+        self.duration = None
+
+    def start(self):
+        self.start_time = datetime.now()
+        self._start_perf_counter = time.perf_counter()
+
+    def stop(self):
+        self.end_time = datetime.now()
+        self._end_perf_counter = time.perf_counter()
+        self.duration = (self._end_perf_counter - self._start_perf_counter) * 1000  # Convert to milliseconds
+
+    def get_start_time(self):
+        return self.start_time
+
+    def get_end_time(self):
+        return self.end_time
+
+    def get_duration(self):
+        return self.duration
 
 
 class MetricResult(BaseModel):
@@ -43,7 +68,8 @@ class DQTestProcessor:
         self.config: DQConfig = config
 
     def _process_test(self, test: DQTest):
-        start_time = time.perf_counter()
+        counter = PerformanceCounter()
+        counter.start()
 
         try:
             env = self.config.get_environment_by_name(test.environment)
@@ -66,12 +92,7 @@ class DQTestProcessor:
                 elif validation_result == 'AMBER' and test_status != 'RED':
                     test_status = 'AMBER'
 
-            end_time = time.perf_counter()
-            duration = end_time - start_time
-
-            start_dt = datetime.now()
-            end_dt = start_dt + timedelta(seconds=duration)
-            duration_ms = int(duration * 1000)
+            counter.stop()
 
             test_result = DQTestResult(
                 environment=test.environment,
@@ -82,13 +103,14 @@ class DQTestProcessor:
                 exception="",
                 test=test,
                 metric_results=metric_results,
-                start_timestamp=start_dt,
-                end_timestamp=end_dt,
-                duration_ms=duration_ms
+                start_timestamp=counter.get_start_time(),
+                end_timestamp=counter.get_end_time(),
+                duration_ms=counter.get_duration()
             )
             return test_result
 
         except Exception as e:
+            counter.stop()
             return DQTestResult(
                 environment=test.environment,
                 host=socket.gethostname(),
@@ -98,27 +120,25 @@ class DQTestProcessor:
                 exception=str(e),
                 test=test,
                 metric_results=[],
-                start_timestamp=datetime.now(),
-                end_timestamp=datetime.now(),
-                duration_ms=0.0
+                start_timestamp=counter.get_start_time(),
+                end_timestamp=counter.get_end_time(),
+                duration_ms=counter.get_duration()
             )
 
     def process(self, tests: List[DQTest]) -> DQTestRun:
-        start_time = time.perf_counter()
+        counter = PerformanceCounter()
+        counter.start()
+
         results = []
         for test in tests:
             res = self._process_test(test)
             results.append(res)
 
-        end_time = time.perf_counter()
-        duration = end_time - start_time
-        start_dt = datetime.now()
-        end_dt = start_dt + timedelta(seconds=duration)
-        duration_ms = int(duration * 1000)
+        counter.stop()
 
         return DQTestRun(run_id="100",
-                         start_timestamp=start_time,
-                         end_timestamp=end_time,
-                         duration_ms=duration_ms,
+                         start_timestamp=counter.get_start_time(),
+                         end_timestamp=counter.get_end_time(),
+                         duration_ms=counter.get_duration(),
                          test_results=results
                          )
