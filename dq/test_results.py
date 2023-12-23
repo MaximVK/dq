@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from dq.test import DQTest, Metric
 from dq.core.config import DQConfig
 from dq.connection import get_connection
-from dq.utils.performance import PerformanceCounter, PerformanceTimer
+import dq.utils.performance_timer as pefr_timer
 from dq.validators import get_validator
 
 
@@ -43,7 +43,7 @@ class DQTestProcessor:
         self.config: DQConfig = config
 
     def _process_test(self, test: DQTest):
-        timer = PerformanceTimer.start()
+        timer = pefr_timer.start()
 
         try:
             env = self.config.get_environment_by_name(test.environment)
@@ -101,7 +101,7 @@ class DQTestProcessor:
         return test_result
 
     def process(self, tests: List[DQTest]) -> DQTestRun:
-        timer = PerformanceTimer.start()
+        timer = pefr_timer.start()
 
         results = []
         for test in tests:
