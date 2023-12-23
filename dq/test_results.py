@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from dq.test import DQTest, Metric
 from dq.core.config import DQConfig
 from dq.connection import get_connection
-from dq.utils.performance import PerformanceCounter
+from dq.utils.performance import PerformanceCounter, PerformanceTimer
 from dq.validators import get_validator
 
 
@@ -43,71 +43,76 @@ class DQTestProcessor:
         self.config: DQConfig = config
 
     def _process_test(self, test: DQTest):
-        counter = PerformanceCounter()
-        with counter.timer():
-            try:
-                env = self.config.get_environment_by_name(test.environment)
+        timer = PerformanceTimer.start()
 
-                conn = get_connection(env)
-                result = conn.select(test.test_query)
+        try:
+            env = self.config.get_environment_by_name(test.environment)
 
-                metric_results = []
-                test_status = 'GREEN'
+            conn = get_connection(env)
+            result = conn.select(test.test_query)
 
-                for metric in test.metrics:
-                    metric_value = result[metric.metric_variable][0]
-                    validator = get_validator(metric.rag)
-                    validation_result = validator.validate_metric(metric_value)
-                    metric_results.append(MetricResult(metric=metric,
-                                                       metric_value=metric_value,
-                                                       rag_status=validation_result))
-                    if validation_result == 'RED':
-                        test_status = 'RED'
-                    elif validation_result == 'AMBER' and test_status != 'RED':
-                        test_status = 'AMBER'
+            metric_results = []
+            test_status = 'GREEN'
 
-                test_result = DQTestResult(
-                    environment=test.environment,
-                    host=socket.gethostname(),
-                    user=getpass.getuser(),
-                    execution_status="COMPLETED",
-                    test_status=test_status,
-                    exception="",
-                    test=test,
-                    metric_results=metric_results,
-                    start_timestamp=counter.start_time,
-                    end_timestamp=counter.end_time,
-                    duration_ms=counter.duration
-                )
+            for metric in test.metrics:
+                metric_value = result[metric.metric_variable][0]
+                validator = get_validator(metric.rag)
+                validation_result = validator.validate_metric(metric_value)
+                metric_results.append(MetricResult(metric=metric,
+                                                   metric_value=metric_value,
+                                                   rag_status=validation_result))
+                if validation_result == 'RED':
+                    test_status = 'RED'
+                elif validation_result == 'AMBER' and test_status != 'RED':
+                    test_status = 'AMBER'
 
-            except Exception as e:
-                test_result = DQTestResult(
-                    environment=test.environment,
-                    host=socket.gethostname(),
-                    user=getpass.getuser(),
-                    test_status="UNKNOWN",
-                    execution_status="FAILED",
-                    exception=str(e),
-                    test=test,
-                    metric_results=[],
-                    start_timestamp=counter.start_time,
-                    end_timestamp=counter.end_time,
-                    duration_ms=counter.duration
-                )
-            return test_result
+            timer_result = timer.stop()
+
+            test_result = DQTestResult(
+                environment=test.environment,
+                host=socket.gethostname(),
+                user=getpass.getuser(),
+                execution_status="COMPLETED",
+                test_status=test_status,
+                exception="",
+                test=test,
+                metric_results=metric_results,
+                start_timestamp=timer_result.start_time,
+                end_timestamp=timer_result.end_time,
+                duration_ms=timer_result.duration
+            )
+
+        except Exception as e:
+            timer_result = timer.stop()
+
+            test_result = DQTestResult(
+                environment=test.environment,
+                host=socket.gethostname(),
+                user=getpass.getuser(),
+                test_status="UNKNOWN",
+                execution_status="FAILED",
+                exception=str(e),
+                test=test,
+                metric_results=[],
+                start_timestamp=timer_result.start_time,
+                end_timestamp=timer_result.end_time,
+                duration_ms=timer_result.duration
+            )
+        return test_result
 
     def process(self, tests: List[DQTest]) -> DQTestRun:
-        counter = PerformanceCounter()
+        timer = PerformanceTimer.start()
 
-        with counter.timer():
-            results = []
-            for test in tests:
-                res = self._process_test(test)
-                results.append(res)
+        results = []
+        for test in tests:
+            res = self._process_test(test)
+            results.append(res)
 
-            return DQTestRun(run_id="100",
-                             start_timestamp=counter.start_time,
-                             end_timestamp=counter.end_time,
-                             duration_ms=counter.duration,
-                             test_results=results
-                             )
+        timer_result = timer.stop()
+
+        return DQTestRun(run_id="100",
+                         start_timestamp=timer_result.start_time,
+                         end_timestamp=timer_result.end_time,
+                         duration_ms=timer_result.duration,
+                         test_results=results
+                         )
