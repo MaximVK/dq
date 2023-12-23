@@ -1,12 +1,13 @@
 import time
 from contextlib import contextmanager
 from datetime import datetime
+from typing import Optional
 
 
 class PerformanceCounter:
-    start_time: datetime = datetime.now()
-    end_time: datetime = datetime.now()
-    duration: float = 0
+    start_time: Optional[datetime] = None
+    end_time: Optional[datetime] = None
+    duration: int = 0
 
     @contextmanager
     def timer(self):
@@ -17,4 +18,4 @@ class PerformanceCounter:
         finally:
             self.end_time = datetime.now()
             self.end_perf_counter = time.perf_counter()
-            self.duration = (self.end_perf_counter - self.start_perf_counter) * 1000  # Convert to milliseconds
+            self.duration = int((self.end_perf_counter - self.start_perf_counter) * 1000)  # Convert to milliseconds
