@@ -1,4 +1,3 @@
-import pytest
 from dq.utils.performance_timer import TimerResult, TimerSession, start
 from datetime import datetime
 
