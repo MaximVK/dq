@@ -1,4 +1,3 @@
-import pytest 
 
 @dq.test("R1", "RMS Trades", "Number of missing trades", RAG(10, 20, 30),
          "Number of missing trades should be less than 10% of total trades")

@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 import os
 from logger_config import logger
-from dq.core.config import load_config_with_secrets, DQConfig
+from dq.core.config import load_config_with_secrets
 from dq.process import process_test_file
 from dq.test_results import DQTestProcessor   
 
