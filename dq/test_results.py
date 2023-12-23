@@ -9,7 +9,6 @@ from dq.core.config import DQConfig
 from dq.connection import get_connection
 from dq.validators import get_validator
 from contextlib import contextmanager
-from typing import Optional
 
 
 class PerformanceCounter:
