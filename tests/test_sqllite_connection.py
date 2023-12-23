@@ -1,13 +1,14 @@
 import pytest
 import pandas as pd
 import sqlite3
-from pathlib import Path
 from logger_config import logger
 from dq.connection import SQLiteConnection  # Replace with the actual module name
+
 
 @pytest.fixture(scope="module")
 def module_tmp_path(tmp_path_factory):
     return tmp_path_factory.mktemp("data")
+
 
 @pytest.fixture(scope="module")
 def sqlite_db_file(module_tmp_path):
@@ -28,16 +29,18 @@ def sqlite_db_file(module_tmp_path):
     conn.commit()
     conn.close()
 
+
 def test_select_returns_dataframe(sqlite_db_file):
-    connection = SQLiteConnection(database=sqlite_db_file)
+    connection = SQLiteConnection(database=str(sqlite_db_file))
     sql = 'SELECT * FROM test_table'
     result = connection.select(sql)
 
     assert isinstance(result, pd.DataFrame), "Expected a DataFrame"
     assert len(result) == 2, "Expected 2 rows in the DataFrame"
 
+
 def test_select_handles_sql_error(sqlite_db_file):
-    connection = SQLiteConnection(database=sqlite_db_file)
+    connection = SQLiteConnection(database=str(sqlite_db_file))
     sql = 'SELECT * FROM non_existent_table'
     
     with pytest.raises(Exception) as excinfo:

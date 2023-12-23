@@ -1,15 +1,33 @@
 from typing import List, Optional
-from datetime import datetime
 from enum import Enum
 from pydantic import BaseModel
 from pydantic import ValidationError
 import yaml 
+import functools
 
+@functools.total_ordering
 class Severity(Enum):
-    LOW = 'Low'
-    MEDIUM = 'Medium'
-    HIGH = 'High'
-    CRITICAL = 'Critical'
+    LOW = 1, 'Low'
+    MEDIUM = 2, 'Medium'
+    HIGH = 3, 'High'
+    CRITICAL = 4, 'Critical'
+
+    def __init__(self, num, label):
+        self._num = num
+        self._label = label
+
+    def __lt__(self, other):
+        if self.__class__ is other.__class__:
+            return self._num < other._num
+        return NotImplemented
+
+    def __eq__(self, other):
+        if self.__class__ is other.__class__:
+            return self._num == other._num
+        return NotImplemented
+
+    def __str__(self):
+        return self._label
 
 
 class Metric(BaseModel):

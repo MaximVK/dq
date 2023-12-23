@@ -1,4 +1,3 @@
-from dataclasses import dataclass, field
 from typing import Optional, Dict
 from pydantic import BaseModel, ValidationError, SecretStr
 import yaml
@@ -8,23 +7,28 @@ from dq.exceptions import DQMissingConfigFileError, DQInvalidConfigFileError
 class GlobalSettings(BaseModel):
     default_output_env: str
 
+
 class EnvironmentCredentials(BaseModel):
     user: str
     password: SecretStr
 
+
 class SecretsFile(BaseModel):
     environments: Dict[str, EnvironmentCredentials]
+
 
 class Environment(BaseModel):
     name: str
     env_type: str
     is_output: Optional[bool] = False
 
+
 class FileSystemEnvironment(Environment):
     path: str
     user: Optional[str] = None
     password: Optional[SecretStr] = None
     output_folder: Optional[str] = None
+
 
 class DatabaseEnvironment(Environment):
     path: Optional[str] = None
@@ -35,12 +39,14 @@ class DatabaseEnvironment(Environment):
     password: Optional[SecretStr] = None
     output_schema: Optional[str] = None
 
+
 class DQConfig(BaseModel):
     global_settings: GlobalSettings
     environments: Dict[str, Environment]
 
     def get_environment_by_name(self, name: str) -> Optional[Environment]:
         return self.environments.get(name, None)
+
 
 # TODO: Replace with factory pattern/plugin system. 
 # It should be possible to create new environment type config types without modifying this code.
@@ -55,12 +61,14 @@ ENV_MAPS = {
     'sftp': FileSystemEnvironment
 }
 
-def create_environment(name:str, env_data:dict) -> Environment:
+
+def create_environment(name: str, env_data: dict) -> Environment:
     env_class = ENV_MAPS.get(env_data['env_type'])
     if env_class:
         return env_class(**env_data)
     else:
         raise ValidationError(f"Unknown environment type: {env_data['env_type']}")
+
 
 def load_config(config_path: str) -> DQConfig:
     try:

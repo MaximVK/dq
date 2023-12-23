@@ -2,7 +2,11 @@ from abc import ABC, abstractmethod
 from pydantic import BaseModel
 from datetime import date, timedelta
 from typing import List, Dict
-from dq.test_results import DQTestResult
+from dq.test_results import DQTestResult, DQTestRun
+from dq.test import Severity
+import functools as fc
+import itertools as it
+from toolz import compose, unique, filter
 
 
 class ReportDocument(BaseModel):
@@ -127,8 +131,30 @@ class ReportDocument(BaseModel):
     performance_page: PerformancePage
 
 
-def get_report_model(self, test_results:List[DQTestResult]):
-    pass 
+def get_report_model(self, test_run:DQTestRun):
+    
+    # DatasetStats
+
+    count_unique = compose(len, set)
+
+    filter_critical = filter(lambda tr: tr.test.severity == Severity.CRITICAL, test_run.test_results)
+    
+    get_dataset = map(attrgetter('test.dataset'), filter_critical)
+    count_unique = compose(len, set, unique)
+
+
+    critical_stats = ReportDocument.ReportPage.DatasetStats(
+        processed = count_unique([tr.test.dataset for tr in test_run.test_results if tr.test.severity == Severity.CRITICAL]),
+        green = [tr.test.dataset for tr in test_run.test_results if tr.test.severity == Severity.CRITICAL and tr.test_status == "RED"],
+        amber=0,
+        red=0,
+        failed=0,
+        green_percent=0,
+        amber_percent=0,
+        red_percent=0
+    )
+
+    
     # for tes
     #         processed: int
     #         green: int

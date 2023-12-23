@@ -6,6 +6,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class Connection:
     @contextmanager
     def _connect(self):
@@ -21,6 +22,7 @@ class Connection:
                 # Additional error handling as required
                 raise
 
+
 class SQLiteConnection(Connection):  
     def __init__(self, database: str):
         self.database = database
@@ -34,22 +36,26 @@ class SQLiteConnection(Connection):
         finally:
             conn.close()
 
+
 class SQLServerConnection(Connection):
     def __init__(self, server: str, port: int, database: str, user: str, password: str):
         self.server = server
         self.database = database
         self.user = user
         self.password = password
+        self.port = port
 
     @contextmanager
     def _connect(self):
         import pyodbc
-        conn_str = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={self.server};DATABASE={self.database};UID={self.user};PWD={self.password}'
+        conn_str = (f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={self.server};'
+                    f'PORT={self.port};DATABASE={self.database};UID={self.user};PWD={self.password}')
         conn = pyodbc.connect(conn_str)
         try:
             yield conn
         finally:
             conn.close()
+
 
 class PostgresConnection(Connection):
     def __init__(self, server: str, port: int, database: str, user: str, password: str):
@@ -57,15 +63,18 @@ class PostgresConnection(Connection):
         self.database = database
         self.user = user
         self.password = password
+        self.port = port
 
     @contextmanager
     def _connect(self):
         import psycopg2
-        conn = psycopg2.connect(host=self.server, database=self.database, user=self.user, password=self.password)
+        conn = psycopg2.connect(host=self.server, database=self.database,
+                                port=self.port, user=self.user, password=self.password)
         try:
             yield conn
         finally:
             conn.close()
+
 
 class MySQLConnection(Connection):
     def __init__(self, server: str, port: int, database: str, user: str, password: str):
@@ -73,29 +82,35 @@ class MySQLConnection(Connection):
         self.database = database
         self.user = user
         self.password = password
+        self.port = port
 
     @contextmanager
     def _connect(self):
         import mysql.connector
-        conn = mysql.connector.connect(host=self.server, database=self.database, user=self.user, password=self.password)
+        conn = mysql.connector.connect(host=self.server, port=self.port, database=self.database,
+                                       user=self.user, password=self.password)
         try:
             yield conn
         finally:
             conn.close()
 
+
 class OracleConnection(Connection):
-    def __init__(self, server: str, port: int, database: str, user: str, password: str, service_name: str = None, dsn: str = None):
+    def __init__(self, server: str, port: int, database: str, user: str, password: str,
+                 service_name: str = None, dsn: str = None):
         self.server = server
         self.database = database
         self.user = user
         self.password = password
         self.service_name = service_name
+        self.port = port
         self.dsn = dsn or f'{self.server}/{self.database}'
 
     @contextmanager
     def _connect(self):
         import cx_Oracle
-        dsn_str = self.dsn if self.dsn else cx_Oracle.makedsn(self.server, self.database, service_name=self.service_name)
+        dsn_str = self.dsn if self.dsn else cx_Oracle.makedsn(self.server,
+                                                              self.database, service_name=self.service_name)
         conn = cx_Oracle.connect(self.user, self.password, dsn_str)
         try:
             yield conn

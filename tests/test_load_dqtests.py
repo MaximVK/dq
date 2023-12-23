@@ -1,6 +1,6 @@
 import pytest
-import yaml
 from dq.test import parse_dq_test_from_yaml, DQTest, Severity, Metric
+
 
 def test_parse_valid_yaml():
     # Arrange
@@ -57,6 +57,7 @@ def test_parse_valid_yaml2():
     assert len(result.metrics) == 1
     assert result.metrics[0].metric_variable == "metric1"
 
+
 @pytest.mark.parametrize("invalid_yaml, expected_message", [
     ("invalid: \n : yaml: content", "Invalid YAML content"), 
 ])
@@ -64,6 +65,7 @@ def test_parse_invalid_yaml(invalid_yaml, expected_message):
     with pytest.raises(ValueError) as exc_info:
         parse_dq_test_from_yaml(invalid_yaml)
     assert expected_message in str(exc_info.value)
+
 
 @pytest.mark.parametrize("incomplete_yaml, expected_message_part", [
     ("environment: production\nmetrics: invalid", "metrics: value is not a valid list"),

@@ -113,9 +113,10 @@ class DQTestProcessor:
         start_dt = datetime.now()
         end_dt = start_dt + timedelta(seconds=duration)
         duration_ms = int(duration * 1000)
+        
         DQTestRun(run_id="100",
                   start_timestamp = start_time,
                   end_timestamp =  end_time,
-                  duration_ms=dur
+                  duration_ms=duration_ms,
                   test_results = list
                 )

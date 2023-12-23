@@ -1,7 +1,5 @@
 import pandas as pd
 from contextlib import contextmanager
-from dq.core.config import Environment
-import logging
 
 
 class Connection:

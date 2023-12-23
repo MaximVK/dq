@@ -1,9 +1,9 @@
-from typing import Optional
 
 class DQMissingConfigFileError(Exception):
     def __init__(self, path: str) -> None:
         super().__init__(f"DQ Error: Configuration file not found at '{path}'.")
         self.path = path
+
 
 class DQInvalidConfigFileError(Exception):
     def __init__(self, path: str, error_details: str) -> None:

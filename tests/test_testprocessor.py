@@ -2,8 +2,8 @@ import pytest
 from dq.test_results import DQTestProcessor
 from dq.test import DQTest, Metric
 from dq.connection import get_connection
-from dq.core.config import DQConfig
 import dq
+
 
 # Sample DQTest object for testing
 @pytest.fixture
@@ -14,12 +14,14 @@ def sample_dqtest():
         metrics=[Metric(metric_variable="var1", rag="1,2,3")]
     )
 
+
 # Mock Configuration
 @pytest.fixture
 def mock_config(mocker):
     config = mocker.MagicMock()
     config.get_environment_by_name.return_value = mocker.MagicMock()
     return config
+
 
 def test_process_successful(mocker, mock_config, sample_dqtest):
     print(get_connection)  # Debug: print before patching
