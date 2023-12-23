@@ -1,0 +1,16 @@
+{% macro row_cards() -%}
+<div class="row row-deck row-cards">
+  {{ caller() }}
+</div>
+{%- endmacro %}
+
+{% macro card(title, col_sm, col_lg) -%}
+<div class="col-sm-{{col_sm}} col-lg-{{col_lg}}">
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">{{title}}</h3>
+      {{ caller() }}
+    </div>
+  </div>
+</div>
+{%- endmacro %}

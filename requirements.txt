@@ -1,4 +1,11 @@
-- It should be possible to run tests locally and on a server with minninal changes in the config file
-    - It should be possible to specify configs for uat, staging and production environments
-    - It should be possible to specify a personcal developer schema for output when running locally
-    
+ruff
+pyright
+
+pandas
+pyodbc
+psycopg2-binary
+mysql-connector-python
+cx_Oracle
+
+pydantic
+jinja2

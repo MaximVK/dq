@@ -2,3 +2,5 @@ Create a report generator
 Create persistency logic
 Create a principal diagram for multi execution engines (SQL, Python, etc.)
 Create environment resolvers
+
+Fix versions in requirements.txt

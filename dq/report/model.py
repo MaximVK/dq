@@ -1,13 +1,14 @@
 from pydantic import BaseModel
-from datetime import date, timedelta
+from datetime import timedelta, datetime
 from typing import List, Dict
 from dq.test_results import DQTestRun
 from dq.test import Severity
 from toolz import compose, unique, filter
+# from dq.test_results import DQTestResult
 
 
 class ReportDocument(BaseModel):
-    class ReportPage(BaseModel):
+    class SummaryPage(BaseModel):
         class DatasetStats(BaseModel):
             processed: int
             green: int
@@ -31,7 +32,7 @@ class ReportDocument(BaseModel):
             environment: str
             dataset_group: str
             dataset_name: str
-            metric_severity: str
+            metric_severity: str  # todo - unused?
             metric_name: str
             metric_value: int
             metric_red_threshold: int
@@ -121,11 +122,12 @@ class ReportDocument(BaseModel):
     
 # Report fields
     started_by: str
-    start_time: date
-    report_page: ReportPage
-    datasets_page: DatasetsPage
-    metrics_page: MetricsPage
-    performance_page: PerformancePage
+    start_time: datetime
+    summary_page: SummaryPage
+    # datasets_page: DatasetsPage
+    # metrics_page: MetricsPage
+    # performance_page: PerformancePage
+
 
 
 def get_report_model(self, test_run:DQTestRun):
@@ -136,7 +138,7 @@ def get_report_model(self, test_run:DQTestRun):
 
     filter_critical = filter(lambda tr: tr.test.severity == Severity.CRITICAL, test_run.test_results)
     
-    get_dataset = map(attrgetter('test.dataset'), filter_critical)
+    # get_dataset = map(attrgetter('test.dataset'), filter_critical)
     count_unique = compose(len, set, unique)
 
 
@@ -151,18 +153,3 @@ def get_report_model(self, test_run:DQTestRun):
         red_percent=0
     )
 
-    
-    # for tes
-    #         processed: int
-    #         green: int
-    #         amber: int
-    #         red: int
-    #         failed: int
-    #         green_percent: int
-    #         amber_percent: int
-    #         red_percent: int
-
-    # start_time = max([tr.start_timestamp for tr in test_results])
-    # end_time = max([tr.end_timestamp for tr in test_results])
-
-    

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% from 'sidebar.html' import sidebar %}
+{% from 'page_summary.html' import page_summary %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
+    <title>DQ Report</title>
+  </head>
+  <body class='theme-dark'>
+    <div class="page">
+      {{ sidebar() }}
+      {{ page_summary(report.summary_page) }}
+    </div>
+  </body>
+</html>
