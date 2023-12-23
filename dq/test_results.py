@@ -1,4 +1,3 @@
-import time
 import socket
 import getpass
 from typing import List
@@ -7,25 +6,8 @@ from pydantic import BaseModel
 from dq.test import DQTest, Metric
 from dq.core.config import DQConfig
 from dq.connection import get_connection
+from dq.utils.performance import PerformanceCounter
 from dq.validators import get_validator
-from contextlib import contextmanager
-
-
-class PerformanceCounter:
-    start_time: datetime = datetime.now()
-    end_time: datetime = datetime.now()
-    duration: float = 0
-
-    @contextmanager
-    def timer(self):
-        self.start_time = datetime.now()
-        self.start_perf_counter = time.perf_counter()
-        try:
-            yield
-        finally:
-            self.end_time = datetime.now()
-            self.end_perf_counter = time.perf_counter()
-            self.duration = (self.end_perf_counter - self.start_perf_counter) * 1000  # Convert to milliseconds
 
 
 class MetricResult(BaseModel):
