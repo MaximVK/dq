@@ -22,7 +22,13 @@ def process_test_file(file_name: str) -> List[DQTest]:
 
     for query in queries:
         # Extract the comments
-        comments = re.search(r'/\*(.*?)\*/', query, re.DOTALL).group(1).rstrip()
+        match = re.search(r'/\*(.*?)\*/', query, re.DOTALL)
+
+        if not match:
+            raise Exception("No comments found")
+
+        comments = match.group(1).rstrip()
+
         # Extract the query
         query = re.sub(r'/\*.*?\*/', '', query, flags=re.DOTALL).strip()
         if query.endswith(';'):

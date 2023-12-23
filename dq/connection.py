@@ -1,7 +1,9 @@
 import pandas as pd
 from contextlib import contextmanager
-from dq.core.config import Environment
+from dq.core.config import Environment, DatabaseEnvironment
 import logging
+from typing import Optional
+from dq.exceptions import DQUnsupportedEnvironmentType
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -97,7 +99,7 @@ class MySQLConnection(Connection):
 
 class OracleConnection(Connection):
     def __init__(self, server: str, port: int, database: str, user: str, password: str,
-                 service_name: str = None, dsn: str = None):
+                 service_name: Optional[str] = None, dsn: Optional[str] = None):
         self.server = server
         self.database = database
         self.user = user
@@ -119,17 +121,19 @@ class OracleConnection(Connection):
 
 
 def get_connection(env: Environment) -> Connection:
-    
-    if env.conn == 'sqlite':
-        logger.info("SQLiteConnection:" + env.path)
+
+    if not isinstance(env, DatabaseEnvironment):
+        raise DQUnsupportedEnvironmentType(env_type=env.env_type)
+
+    if env.env_type == 'sqlite':
         return SQLiteConnection(env.path)
-    elif env.conn == 'sqlserver':
+    elif env.env_type == 'sqlserver':
         return SQLServerConnection(env.host, env.port, env.database, env.user, env.password)
-    elif env.conn == 'postgres':
+    elif env.env_type == 'postgres':
         return PostgresConnection(env.host, env.port, env.database, env.user, env.password)
-    elif env.conn == 'mysql':
+    elif env.env_type == 'mysql':
         return MySQLConnection(env.host, env.port, env.database, env.user, env.password)
-    elif env.conn == 'oracle':
+    elif env.env_type == 'oracle':
         return OracleConnection(env.host, env.port, env.database, env.user, env.password)
     else:
-        raise ValueError(f'Environment type {env.conn} not supported')
+        raise DQUnsupportedEnvironmentType(env.env_type)
