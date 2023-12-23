@@ -114,6 +114,7 @@ def config_file(module_tmp_path: Path, sqlite_db_file: str):
     config_file.write_text(config_data)
     return str(config_file)
 
+
 def test_dq_tests_run(config_file: str, secrets_file: str, sqlite_db_file: str):
     config = load_config_with_secrets(config_file, secrets_file)
     file_path = get_file_path("test_queries.sql")   
@@ -121,9 +122,9 @@ def test_dq_tests_run(config_file: str, secrets_file: str, sqlite_db_file: str):
 
     # Process the test
     processor = DQTestProcessor(config=config)
-    results = processor.process(dq_tests)
+    test_run = processor.process(dq_tests)
 
-    for result in results:
+    for result in test_run.test_results:
         logger.info("Test Status:" + result.test_status)
         logger.info("Execution Status:" + result.execution_status)
         logger.info("Exception:" + result.exception)

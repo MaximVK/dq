@@ -5,29 +5,26 @@ from pydantic import ValidationError
 import yaml 
 import functools
 
+
 @functools.total_ordering
 class Severity(Enum):
-    LOW = 1, 'Low'
-    MEDIUM = 2, 'Medium'
-    HIGH = 3, 'High'
-    CRITICAL = 4, 'Critical'
-
-    def __init__(self, num, label):
-        self._num = num
-        self._label = label
+    LOW = 'Low'
+    MEDIUM = 'Medium'
+    HIGH = 'High'
+    CRITICAL = 'Critical'
 
     def __lt__(self, other):
         if self.__class__ is other.__class__:
-            return self._num < other._num
+            return list(self.__class__).index(self) < list(self.__class__).index(other)
         return NotImplemented
 
     def __eq__(self, other):
         if self.__class__ is other.__class__:
-            return self._num == other._num
+            return self is other
         return NotImplemented
 
     def __str__(self):
-        return self._label
+        return self.value
 
 
 class Metric(BaseModel):

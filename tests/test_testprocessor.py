@@ -7,7 +7,7 @@ import dq
 
 # Sample DQTest object for testing
 @pytest.fixture
-def sample_dqtest():
+def sample_dqtest() -> DQTest:
     return DQTest(
         environment="TestEnv",
         test_query="SELECT var1, var2 from table1",
@@ -36,9 +36,11 @@ def test_process_successful(mocker, mock_config, sample_dqtest):
     mocker.patch.object(dq.test_results, "get_validator", return_value=mock_validator)
 
     processor = DQTestProcessor(config=mock_config)
+    test_run = processor.process([sample_dqtest])
+    test_results_iterator = iter(test_run.test_results)
 
     # Process the test
-    result = next(processor.process([sample_dqtest]))
+    result = next(test_results_iterator)
 
     # Assertions
     assert result.environment == "TestEnv"
@@ -50,9 +52,11 @@ def test_process_exception(mocker, mock_config, sample_dqtest):
     mocker.patch.object(dq.test_results, "get_connection", side_effect=Exception("DB Connection Failed"))
 
     processor = DQTestProcessor(config=mock_config)
+    test_run = processor.process([sample_dqtest])
+    test_results_iterator = iter(test_run.test_results)
 
     # Process the test
-    result = next(processor.process([sample_dqtest]))
+    result = next(test_results_iterator)
 
     # Assertions
     assert result.execution_status == "FAILED"
