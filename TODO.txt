@@ -3,4 +3,10 @@ Create persistency logic
 Create a principal diagram for multi execution engines (SQL, Python, etc.)
 Create environment resolvers
 
+
+infra:
+configure pyproject.toml
+setup GitHub Actions
+setup codecov.yml for coverage
 Fix versions in requirements.txt
+Add license

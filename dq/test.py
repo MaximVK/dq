@@ -8,7 +8,7 @@ import functools
 
 @functools.total_ordering
 class Severity(Enum):
-    LOW = 'Low'
+    INFO = 'Info'
     MEDIUM = 'Medium'
     HIGH = 'High'
     CRITICAL = 'Critical'
@@ -40,7 +40,7 @@ class DQTest(BaseModel):
     environment: str 
     labels: Optional[List[str]] = None
     metrics: List[Metric]
-    severity: Severity = Severity.LOW
+    severity: Severity = Severity.INFO
     test_query: Optional[str] = None 
     details_query: Optional[str] = None
 

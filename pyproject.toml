@@ -1,0 +1,18 @@
+[project]
+name = "dq"
+version = "0.1.0"
+description = "DQ Lite Project"
+authors = [
+    { name = "Your Name", email = "you@example.com" },
+]
+dependencies = [
+    "requests",
+    "numpy",
+]
+
+[tool.black]
+line-length = 120
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"

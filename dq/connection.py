@@ -4,9 +4,17 @@ from dq.core.config import Environment, DatabaseEnvironment
 import logging
 from typing import Optional
 from dq.exceptions import DQUnsupportedEnvironmentType
+from typing import TypeVar, Optional
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+T = TypeVar('T')
+def unpack_opt(opt: Optional[T], exception_text: str = 'Value is None') -> T:
+    if opt is None:
+        raise ValueError(exception_text)
+    return opt
 
 
 class Connection:
@@ -126,14 +134,14 @@ def get_connection(env: Environment) -> Connection:
         raise DQUnsupportedEnvironmentType(env_type=env.env_type)
 
     if env.env_type == 'sqlite':
-        return SQLiteConnection(env.path)
+        return SQLiteConnection(unpack_opt(env.path))
     elif env.env_type == 'sqlserver':
-        return SQLServerConnection(env.host, env.port, env.database, env.user, env.password)
+        return SQLServerConnection(unpack_opt(env.host), unpack_opt(env.port), unpack_opt(env.database), env.user, env.password.get_secret_value())
     elif env.env_type == 'postgres':
-        return PostgresConnection(env.host, env.port, env.database, env.user, env.password)
+        return PostgresConnection(env.host, env.port, env.database, env.user, env.password.get_secret_value())
     elif env.env_type == 'mysql':
-        return MySQLConnection(env.host, env.port, env.database, env.user, env.password)
+        return MySQLConnection(env.host, env.port, env.database, env.user, env.password.get_secret_value())
     elif env.env_type == 'oracle':
-        return OracleConnection(env.host, env.port, env.database, env.user, env.password)
+        return OracleConnection(env.host, env.port, env.database, env.user, env.password.get_secret_value())
     else:
         raise DQUnsupportedEnvironmentType(env.env_type)
