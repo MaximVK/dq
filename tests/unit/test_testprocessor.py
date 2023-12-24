@@ -1,5 +1,5 @@
 import pytest
-from dq.test_results import DQTestProcessor
+from dq.test_run import DQTestProcessor
 from dq.test import DQTest, Metric
 from dq.connection import get_connection
 import dq
@@ -29,11 +29,11 @@ def test_process_successful(mocker, mock_config, sample_dqtest):
     # Mocking get_connection and get_validator
     mock_conn = mocker.MagicMock()
     mock_conn.select.return_value = {"var1": [50]}
-    mocker.patch.object(dq.test_results, "get_connection", return_value=mock_conn)
+    mocker.patch.object(dq.test_run, "get_connection", return_value=mock_conn)
 
     mock_validator = mocker.MagicMock()
     mock_validator.validate_metric.return_value = "GREEN"
-    mocker.patch.object(dq.test_results, "get_validator", return_value=mock_validator)
+    mocker.patch.object(dq.test_run, "get_validator", return_value=mock_validator)
 
     processor = DQTestProcessor(config=mock_config)
     test_run = processor.process([sample_dqtest])
@@ -49,7 +49,7 @@ def test_process_successful(mocker, mock_config, sample_dqtest):
 
 def test_process_exception(mocker, mock_config, sample_dqtest):
     # Mocking exception in get_connection
-    mocker.patch.object(dq.test_results, "get_connection", side_effect=Exception("DB Connection Failed"))
+    mocker.patch.object(dq.test_run, "get_connection", side_effect=Exception("DB Connection Failed"))
 
     processor = DQTestProcessor(config=mock_config)
     test_run = processor.process([sample_dqtest])

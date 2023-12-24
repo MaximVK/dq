@@ -1,6 +1,6 @@
 from random import randint
 
-from dq.report.model import *
+from src.dq.report.model import *
 from dq.report.report_generator import generate_html_report
 
 def make_dataset_stats():

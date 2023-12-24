@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from datetime import timedelta, datetime
 from typing import List, Dict
-from dq.test_results import DQTestRun
+from dq.test_run import DQTestRun
 from dq.test import Severity
 from toolz import compose, unique, filter
 # from dq.test_results import DQTestResult

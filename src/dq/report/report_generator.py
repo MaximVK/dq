@@ -1,6 +1,6 @@
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-from dq.report.model import ReportDocument
+from src.dq.report.model import ReportDocument
 
 env = Environment(
     loader=PackageLoader("dq.report"),
