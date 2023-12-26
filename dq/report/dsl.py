@@ -100,16 +100,14 @@ class ProgressRAG(Container):
 class Table(Element):
     @dataclass
     class Column:
+        caption: str | None = None
         align: Literal['start', 'center', 'end'] | None = None
 
-    def __init__(self, columns: list[Column], captions: list[Any] | None = None, rows: list[list[Any]] | None = None):
+    def __init__(self, columns: list[Column], rows: list[list[Any]] | None = None):
         assert len(columns) > 0, "Must have at least one column"
-        if captions is not None:
-            assert len(captions) == len(columns), f"Number of captions does not match number of columns"
         if rows is not None:
             for i, r in enumerate(rows):
                 assert len(r) == len(columns), f"Number of cells in row {i} does not match number of columns"
-        self.captions = captions
         self.columns = columns
         self.rows = rows
 
@@ -122,7 +120,8 @@ class Table(Element):
         return header_row
 
     def _render(self):
-        header_row = self._render_row(self.captions, self._th_template) if self.captions else None
+        captions = [column.caption for column in self.columns]
+        header_row = self._render_row(captions, self._th_template) if any(captions) else None
         body_rows = [self._render_row(row, self._td_template) for row in self.rows] if self.rows else None
         return self._template.render(header_row=header_row, body_rows=body_rows)
 

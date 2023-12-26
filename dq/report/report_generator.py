@@ -9,7 +9,7 @@ def dataset_stats_percent(stats: ReportDocument.SummaryPage.DatasetStats) -> Pro
 
 def dataset_stats_table(stats: ReportDocument.SummaryPage.DatasetStats) -> Table:
     return Table(
-        columns=[None, Table.Column(align='end')],
+        columns=[Table.Column(), Table.Column(align='end')],
         rows=[
             [Strong("Processed"), Strong(stats.processed)],
             ["Green", green(stats.green)],
@@ -34,9 +34,12 @@ def generate_summary_page(summary: ReportDocument.SummaryPage) -> Page:
         dataset_stats_card("Datasets: Minor", summary.datasets_minor),
         Card(2, 4, "Top 10 failed datasets",
              Table(
-                 columns=[Table.Column(), Table.Column(), Table.Column(), Table.Column(align='end'),
-                          Table.Column(align='center')],
-                 captions=["Env", "Dataset Group", "Dataset Name", "Success", "Metrics"],
+                 columns=[
+                     Table.Column("Env"),
+                     Table.Column("Dataset Group"),
+                     Table.Column("Dataset Name"),
+                     Table.Column("Success", align='end'),
+                     Table.Column("Metrics", align='center')],
                  rows=[
                      [ds.environment,
                       ds.dataset_group,
@@ -48,9 +51,13 @@ def generate_summary_page(summary: ReportDocument.SummaryPage) -> Page:
              ),
         Card(4, 8, "Top 10 failed metrics",
              Table(
-                 columns=[Table.Column(), Table.Column(), Table.Column(), Table.Column(), Table.Column(align='center'),
-                          Table.Column(align='center')],
-                 captions=["Env", "Dataset Group", "Dataset Name", "Metric", "RAG Range", "Value"],
+                 columns=[
+                     Table.Column("Env"),
+                     Table.Column("Dataset Group"),
+                     Table.Column("Dataset Name"),
+                     Table.Column("Metric"),
+                     Table.Column("RAG Range", align='center'),
+                     Table.Column("Value", align='center')],
                  rows=[
                      [m.environment,
                       m.dataset_group,

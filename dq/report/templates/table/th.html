@@ -8,4 +8,4 @@ input:
 {% if align=="end" %}text-end{% endif %}
 {% endmacro %}
 
-<th class="{{ td_class(column.align) }}">{{content}}</th>
+<th class="{{ td_class(column.align) }}">{% if content != none %}{{content}}{% endif %}</th>
