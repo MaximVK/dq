@@ -1,0 +1,16 @@
+<div class="table-responsive">
+  <table class="table table-sm table-borderless">
+    {% if header_row != none %}
+      <thead>
+        {{header_row}}
+      </thead>
+    {% endif %}
+    {% if body_rows != none %}
+      <tbody class="small">
+      {% for body_row in body_rows %}
+        {{body_row}}
+      {% endfor %}
+      </tbody>
+    {% endif %}
+  </table>
+</div>

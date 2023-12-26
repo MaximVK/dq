@@ -1,6 +1,8 @@
 ruff
 pyright
 
+pyyaml
+toolz
 pandas
 pyodbc
 psycopg2-binary

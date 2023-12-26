@@ -39,7 +39,7 @@ def make_failed_metrics_table_record():
         metric_red_threshold=1,
         metric_amber_threshold=5,
         metric_green_threshold=10
-    ),
+    )
 
 
 def test_report():
@@ -61,8 +61,8 @@ def test_report():
         ],
 
         failed_metrics=[
-            # make_failed_metrics_table_record(),
-            # make_failed_metrics_table_record(),
+            make_failed_metrics_table_record(),
+            make_failed_metrics_table_record(),
         ]
     )
     doc = ReportDocument(

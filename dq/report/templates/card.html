@@ -1,10 +1,10 @@
-{% macro card(title, content) -%}
-<div class="col-sm-6 col-lg-3">
+<div class="col-sm-{{col_sm}} col-lg-{{col_lg}}">
   <div class="card">
     <div class="card-body">
       <h3 class="card-title">{{title}}</h3>
-      {{content}}
+      {% for child in children %}
+      {{child}}
+      {% endfor %}
     </div>
   </div>
 </div>
-{% endmacro %}

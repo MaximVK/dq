@@ -1,0 +1,11 @@
+{#
+input:
+- content - goes directly to td
+- column.align - "start" | "center" | "end"
+#}
+{% macro td_class(align) -%}
+{% if align=="center" %}text-center{% endif %}
+{% if align=="end" %}text-end{% endif %}
+{% endmacro %}
+
+<td class="{{ td_class(column.align) }}">{{content}}</td>
