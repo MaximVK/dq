@@ -68,7 +68,7 @@ def test_parse_invalid_yaml(invalid_yaml, expected_message):
 
 
 @pytest.mark.parametrize("incomplete_yaml, expected_message_part", [
-    ("environment: production\nmetrics: invalid", "metrics: value is not a valid list"),
+    ("environment: production\nmetrics: invalid", "metrics: Input should be a valid list"),
 ])
 def test_data_validation_errors(incomplete_yaml, expected_message_part):
     with pytest.raises(ValueError) as exc_info:

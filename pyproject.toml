@@ -25,5 +25,5 @@ minversion = "6.0"
 addopts = "-ra -q"
 
 [tool.dq.plugins]
-clickhouse = "dq.environments.clickhouse.ClickhouseAdapter:ClickhouseAdapter"
-sqlite = "dq.environments.sqlite.SqliteAdapter:SQLiteAdapter"
+clickhouse = "dq.environments.clickhouse.adapter:ClickhouseAdapter"
+sqlite = "dq.environments.sqlite.adapter:SQLiteAdapter"
