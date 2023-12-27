@@ -3,6 +3,11 @@ from contextlib import contextmanager
 
 from abc import ABC, abstractmethod
 
+class TestAbstractAdapter(ABC):
+    @abstractmethod
+    def saysomething(self):
+        pass
+
 class BaseDatabaseAdapter(ABC):
     @abstractmethod
     def connect(self):

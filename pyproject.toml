@@ -23,3 +23,7 @@ dqlite = "dq.cli:main"
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q"
+
+[tool.dq.plugins]
+clickhouse = "dq.environments.clickhouse.ClickhouseAdapter:ClickhouseAdapter"
+sqlite = "dq.environments.sqlite.SqliteAdapter:SQLiteAdapter"

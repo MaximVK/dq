@@ -1,6 +1,7 @@
 from dq.core.dbadapter import TestAbstractAdapter
 
 
-class ClickhouseAdapter(TestAbstractAdapter):
+class SQLiteAdapter(TestAbstractAdapter):
+
     def saysomething(self):
-        print("I'm clickhouse!")
+        print("I'm SQLite!")
