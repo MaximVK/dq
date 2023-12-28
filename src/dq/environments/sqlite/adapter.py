@@ -5,10 +5,6 @@ import pandas as pd
 from contextlib import contextmanager
 import sqlite3
 
-class SQLiteConfig(Environment):
-    path: str
-    output_schema: Optional[str] = None
-
 
 class SQLiteAdapter(BaseDatabaseAdapter):
     def __init__(self, config: SQLiteConfig):

@@ -1,36 +1,10 @@
 from dq.core.dbadapter import BaseDatabaseAdapter
-from dq.core.config import Environment
-from typing import Optional, Dict, Any
 import pandas as pd
 from contextlib import contextmanager
-
-class ClickhouseConfig(Environment):
-    driver: Optional[str] = None
-    host: str = 'localhost'
-    port: Optional[int] = None
-    user: Optional[str] = 'default'
-    retries: int = 1
-    database: Optional[str] = ''
-    schema: Optional[str] = 'default'
-    password: str = ''
-    cluster: Optional[str] = None
-    database_engine: Optional[str] = None
-    cluster_mode: bool = False
-    secure: bool = False
-    verify: bool = True
-    connect_timeout: int = 10
-    send_receive_timeout: int = 300
-    sync_request_timeout: int = 5
-    compress_block_size: int = 1048576
-    compression: str = ''
-    check_exchange: bool = True
-    custom_settings: Optional[Dict[str, Any]] = None
-    use_lw_deletes: bool = False
-    local_suffix: str = 'local'
-    allow_automatic_deduplication: bool = False
+from dq.environments.clickhouse.environment import ClickhouseEnvironment
 
 class ClickhouseAdapter(BaseDatabaseAdapter):
-    def __init__(self, config: ClickhouseConfig):
+    def __init__(self, config: ClickhouseEnvironment):
         self.config = config
 
     @contextmanager
@@ -49,6 +23,7 @@ class ClickhouseAdapter(BaseDatabaseAdapter):
                 print(f"An error occurred: {e}")
                 #TODO: Additional error handling as required
                 raise
+
     def save_details(self, details:pd.DataFrame, details_table:str) -> None:
         with self._connect() as conn:
             try:
@@ -58,5 +33,6 @@ class ClickhouseAdapter(BaseDatabaseAdapter):
                 print(f"An error occurred: {e}")
                 #TODO: Additional error handling as required
                 raise
+
     def save_run_results(self, results, results_table:str) -> None:
         raise NotImplementedError

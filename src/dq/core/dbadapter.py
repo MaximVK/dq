@@ -9,7 +9,7 @@ class BaseDatabaseAdapter(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def save_details(self, details:pd.DataFrame) -> None:
+    def save_details(self, details: pd.DataFrame, details_table: str) -> None:
         raise NotImplementedError
 
     @abstractmethod

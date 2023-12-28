@@ -24,6 +24,7 @@ dqlite = "dq.cli:main"
 minversion = "6.0"
 addopts = "-ra -q"
 
-[tool.dq.plugins]
-clickhouse = "dq.environments.clickhouse.adapter:ClickhouseAdapter"
-sqlite = "dq.environments.sqlite.adapter:SQLiteAdapter"
+[tool.poetry.plugins."dq.plugins"]
+clickhouse = "dq.environments.clickhouse.plugin:ClickhousePlugin"
+sqlite = "dq.environments.clickhouse_http.plugin:ClickhouseHttpPlugin"
+sqlite = "dq.environments.sqlite.plugin:SQLitePlugin"
