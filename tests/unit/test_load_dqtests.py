@@ -1,5 +1,5 @@
 import pytest
-from dq.test import parse_dq_test_from_yaml, DQTest, Severity, Metric
+from dqlite.test import parse_dq_test_from_yaml, DQTest, Severity, Metric
 
 
 def test_parse_valid_yaml():

@@ -1,6 +1,6 @@
 import pathlib as pl
 import re
-from dq.test import parse_dq_test_from_yaml, DQTest
+from dqlite.test import parse_dq_test_from_yaml, DQTest
 from typing import List
 
 

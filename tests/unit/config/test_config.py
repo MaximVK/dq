@@ -1,7 +1,7 @@
 import pytest
 import os
 import yaml
-from dq.core.config import (
+from dqlite.core.config import (
     load_config, 
     load_secrets, 
     load_config_with_secrets,

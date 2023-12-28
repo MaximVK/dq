@@ -1,0 +1,2 @@
+[tool.poetry.plugins."dq.plugins"]
+sqlite = "dq.environments.sqlite.plugin:SQLitePlugin"

@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 import sqlite3
 from logger_config import logger
-from dq.connection import SQLiteConnection  # Replace with the actual module name
+from dqlite.connection import SQLiteConnection  # Replace with the actual module name
 
 
 @pytest.fixture(scope="module")

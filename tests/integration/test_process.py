@@ -3,9 +3,9 @@ from pathlib import Path
 import pytest
 import os
 from logger_config import logger
-from dq.core.config import load_config_with_secrets
-from dq.process import process_test_file
-from dq.test_run import DQTestProcessor
+from dqlite.core.config import load_config_with_secrets
+from dqlite.process import process_test_file
+from dqlite.test_run import DQTestProcessor
 
 def get_file_path(filename):
     return os.path.join(os.path.dirname(__file__), filename)

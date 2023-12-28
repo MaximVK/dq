@@ -1,4 +1,4 @@
-from dq.core.config import Environment
+from dqlite.core.config import Environment
 from typing import Optional
 
 

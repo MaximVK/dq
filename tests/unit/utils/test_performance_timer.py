@@ -1,4 +1,4 @@
-from dq.utils.performance_timer import TimerResult, TimerSession, start
+from dqlite.utils.performance_timer import TimerResult, TimerSession, start
 from datetime import datetime
 
 def test_timerresult():

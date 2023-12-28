@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dq"
+version = "0.1.0"
+description = "DQ Lite Project"
+authors = [
+    { name = "Max", email = "you@example.com" },
+]
+dependencies = [
+    "requests",
+    "numpy",
+]
+
+[tool.black]
+line-length = 120
+
+[project.scripts]
+dqlite = "dq.cli:main"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+
+[tool.poetry.plugins."dq.plugins"]
+clickhouse = "dq.environments.clickhouse.plugin:ClickhousePlugin"
+clickhouse_http = "dq.environments.clickhouse_http.plugin:ClickhouseHttpPlugin"
+sqlite = "dq.environments.sqlite.plugin:SQLitePlugin"

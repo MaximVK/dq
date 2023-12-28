@@ -1,9 +1,9 @@
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-from src.dq.report.model import ReportDocument
+from src.dqlite.report.model import ReportDocument
 
 env = Environment(
-    loader=PackageLoader("dq.report"),
+    loader=PackageLoader("dqlite.report"),
     autoescape=select_autoescape()
 )
 

@@ -3,11 +3,11 @@ import getpass
 from typing import List
 from datetime import datetime
 from pydantic import BaseModel
-from dq.test import DQTest, Metric
-from dq.core.config import DQConfig
-from dq.connection import get_connection
-import dq.utils.performance_timer as pefr_timer
-from dq.validators import get_validator
+from dqlite.test import DQTest, Metric
+from dqlite.core.config import DQConfig
+from dqlite.connection import get_connection
+import dqlite.utils.performance_timer as pefr_timer
+from dqlite.validators import get_validator
 
 
 class MetricResult(BaseModel):

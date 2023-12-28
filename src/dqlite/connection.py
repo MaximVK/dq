@@ -1,9 +1,9 @@
 import pandas as pd
 from contextlib import contextmanager
-from dq.core.config import Environment, DatabaseEnvironment
+from dqlite.core.config import Environment, DatabaseEnvironment
 import logging
 from typing import Optional
-from dq.exceptions import DQUnsupportedEnvironmentType
+from dqlite.exceptions import DQUnsupportedEnvironmentType
 from typing import TypeVar, Optional
 
 logging.basicConfig(level=logging.INFO)

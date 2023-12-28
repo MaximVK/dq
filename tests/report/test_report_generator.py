@@ -1,7 +1,7 @@
 from random import randint
 
-from src.dq.report.model import *
-from dq.report.report_generator import generate_html_report
+from src.dqlite.report.model import *
+from dqlite.report.report_generator import generate_html_report
 
 def make_dataset_stats():
     return ReportDocument.SummaryPage.DatasetStats(

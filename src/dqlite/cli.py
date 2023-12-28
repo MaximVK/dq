@@ -5,8 +5,8 @@ from pathlib import Path
 
 def load_plugins():
     base_path = Path(__file__).parent.parent.parent
-    config = toml.load(base_path / "pyproject.toml")
-    plugins = config["tool"]["dq"]["plugins"]
+    config = toml.load(base_path / "pyproject.toml.bak")
+    plugins = config["tool"]["dqlite"]["plugins"]
 
     loaded_plugins = []
 

@@ -1,5 +1,5 @@
-from dq.core.dbadapter import BaseDatabaseAdapter
-from dq.core.config import Environment
+from dqlite.core.dbadapter import BaseDatabaseAdapter
+from dqlite.environments.sqlite.environment import SQLiteEnvironment
 from typing import Optional
 import pandas as pd
 from contextlib import contextmanager
@@ -7,7 +7,7 @@ import sqlite3
 
 
 class SQLiteAdapter(BaseDatabaseAdapter):
-    def __init__(self, config: SQLiteConfig):
+    def __init__(self, config: SQLiteEnvironment):
         self.config = config
 
     @contextmanager

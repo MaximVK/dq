@@ -1,4 +1,4 @@
-from dq.core.config import Environment
+from dqlite.core.config import Environment
 from typing import Optional, Dict, Any
 
 
@@ -9,7 +9,7 @@ class ClickhouseEnvironment(Environment):
     user: Optional[str] = 'default'
     retries: int = 1
     database: Optional[str] = ''
-    schema: Optional[str] = 'default'
+    # schema: Optional[str] = 'default'
     password: str = ''
     cluster: Optional[str] = None
     database_engine: Optional[str] = None

@@ -1,7 +1,7 @@
 from typing import Optional, Dict
 from pydantic import BaseModel, ValidationError, SecretStr
 import yaml
-from dq.exceptions import DQMissingConfigFileError, DQInvalidConfigFileError
+from dqlite.exceptions import DQMissingConfigFileError, DQInvalidConfigFileError
 
 
 class GlobalSettings(BaseModel):
